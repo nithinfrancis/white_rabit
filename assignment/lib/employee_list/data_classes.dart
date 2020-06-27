@@ -65,15 +65,16 @@ class Employee {
     Map<String, dynamic> values = new Map<String, dynamic>();
     values["id"] = id;
     values["name"] = name;
+    values["email"] = email;
     values["userName"] = username;
     values["profile_image"] = profileImage;
-    values["street"] = address.street;
-    values["suite"] = address.suite;
-    values["city"] = address.city;
-    values["zipcode"] = address.zipcode;
-    values["lat"] = address.geo.lat;
-    values["lng"] = address.geo.lng;
-    values["phone"] = phone;
+    values["street"] = address?.street ?? "";
+    values["suite"] = address?.suite ?? "";
+    values["city"] = address?.city ?? "";
+    values["zipcode"] = address?.zipcode ?? "";
+    values["lat"] = address?.geo?.lat ?? "";
+    values["lng"] = address?.geo?.lng ?? "";
+    values["phone"] = phone ?? "";
     values["website"] = website ?? "";
     values["companyName"] = company?.name ?? "";
     values["catchPhrase"] = company?.catchPhrase ?? "";
@@ -82,7 +83,6 @@ class Employee {
   }
 
   static Future<void> insertEmployeeToDB(Employee employee) async {
-    print("fdfd");
     DBHelper.dbhInsert(tableName, employee.getDBInsertMap());
   }
 
@@ -93,9 +93,15 @@ class Employee {
     email = json['email'];
     profileImage = json['profile_image'];
     address = json['address'] != null ? new Address.fromJson(json['address']) : null;
+    if (address == null) {
+      address = Address(zipcode: json['zipcode'], city: json['city'], street: json['street']);
+    }
     phone = json['phone'];
     website = json['website'];
     company = json['company'] != null ? new Company.fromJson(json['company']) : null;
+    if (company == null) {
+      company = Company(name: json['companyName'], bs: json['bs'], catchPhrase: json['catchPhrase']);
+    }
   }
 
   Map<String, dynamic> toJson() {

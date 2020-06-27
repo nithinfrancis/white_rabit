@@ -98,7 +98,7 @@ class _EmployeeListPageState extends State<EmployeeListPage> {
                               padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.push(context, new MaterialPageRoute(builder: (context) => new DetailScreenPage()));
+                                  Navigator.push(context, new MaterialPageRoute(builder: (context) => new DetailScreenPage(employee: _tempEmployeeList[i])));
                                 },
                                 child: Card(
                                   child: (Container(
